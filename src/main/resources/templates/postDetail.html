@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/components/head :: head"></head>
+<body>
+
+<div th:replace="/components/header :: header"></div>
+
+<div class="container">
+    <div class="post">
+        <h2 th:text="${currentPost.title}">Title</h2>
+        <h5 th:text="'Published on ' + ${currentPost.createdTime}">Creation date and by whom</h5>
+        <div class="img">Image</div>
+        <p th:text="${currentPost.contentPost}">content</p>
+<!--        <div class="align-right" sec:authorize="isAuthenticated()" th:if="${isOwner}">-->
+<!--            <a th:href="@{'/editPost/{id}'(id=${post.id})}">-->
+<!--                <button class="green-btn blue-btn" type="button">Edit</button>-->
+<!--            </a>-->
+<!--        </div>-->
+
+        <div class="align-right">
+            <a th:href="@{'/editPost/{id}'(id=${currentPost.id})}">
+                <button class="green-btn blue-btn" type="button">Edit</button>
+            </a>
+        </div>
+    </div>
+    <div class="comments">
+        <h2>Comments</h2>
+        <div class="comment" th:each="comment : ${listCommentCurrentPost}">
+            <h5 th:text="'Commented on ' + ' by ' + ${comment.userId}">Comment date and by whom</h5>
+            <p th:text="${comment.contentCmt}">Body</p>
+        </div>
+    </div>
+    <div class="align-center">
+        <a th:href="@{'/comment/{id}'(id=${currentPost.id})}">
+            <button class="green-btn" type="button">Comment Post</button>
+        </a>
+    </div>
+</div>
+
+<footer th:replace="/components/footer :: footer"></footer>
+
+</body>
+</html>
