@@ -35,4 +35,10 @@ public class PostRepository implements IPostRepository {
                 new Object[]{id},
                 new BeanPropertyRowMapper(Post.class));
     }
+
+    @Override
+    public void save(Post post) {
+        String sql = "INSERT INTO `sys`.`post` (user_id, title, img, content_post) VALUES(?, ?, ?, ?)";
+        jdbcTemplate.update(sql, post.getUserId(), post.getTitle(), post.getImg(), post.getContentPost() );
+    }
 }

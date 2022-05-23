@@ -1,7 +1,9 @@
 package com.example.websiteblog.service.impl;
 
 import com.example.websiteblog.model.Post;
+import com.example.websiteblog.model.User;
 import com.example.websiteblog.repository.IPostRepository;
+import com.example.websiteblog.repository.IUserRepository;
 import com.example.websiteblog.service.IPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import java.util.Optional;
 public class PostService implements IPostService {
 
     private final IPostRepository iPostRepository;
+
+    private final IUserRepository iUserRepository;
     @Override
     public Post getById(Long id) {
         return iPostRepository.getById(id);
@@ -28,8 +32,10 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public Post save(Post post) {
-        return null;
+    public void save(Post post) {
+         User userActive = iUserRepository.findUserActive();
+         post.setUserId(Math.toIntExact(userActive.getId()));
+        iPostRepository.save(post);
     }
 
     @Override

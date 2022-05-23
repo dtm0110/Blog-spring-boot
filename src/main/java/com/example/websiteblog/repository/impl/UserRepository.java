@@ -20,16 +20,32 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public User findByUsername(String username) {
-        String sql = "select * from user where user_name = ?";
-        return (User) jdbcTemplate.queryForObject(
-                sql,
-                new Object[]{username},
-                new BeanPropertyRowMapper(User.class));
+        try {
+            String sql = "select * from user where user_name = ?";
+            return (User) jdbcTemplate.queryForObject(
+                    sql,
+                    new Object[]{username},
+                    new BeanPropertyRowMapper(User.class));
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 
     @Override
     public void save(User user) {
         String sql = "INSERT INTO `sys`.`user` (user_name, password) VALUES (?, ?)";
-        jdbcTemplate.update(sql, user.getUsername(), user.getPassword());
+        jdbcTemplate.update(sql, user.getUserName(), user.getPassword());
     }
+
+    @Override
+    public User findUserActive() {
+        String sql = "select * from user where is_active = ?";
+        return (User) jdbcTemplate.queryForObject(
+                sql,
+                new Object[]{1},
+                new BeanPropertyRowMapper(User.class));
+    }
+
+
 }

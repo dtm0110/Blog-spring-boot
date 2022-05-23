@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface IUserRepository {
     public User findByUsername(String username);
     public void save(User user);
+
+    public User findUserActive();
 }

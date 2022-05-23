@@ -11,7 +11,7 @@ public interface IPostService {
 
     public List<Post> getAllPost();
 
-    Post save(Post post);
+    void save(Post post);
 
     void delete(Post post);
 }

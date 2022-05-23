@@ -16,9 +16,9 @@
           method="post">
         <div>
             <label>
-                <div class="alert-red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error
+                <div class="alert-red" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">Username Error
                 </div>
-                <input type="text" th:field="*{username}" placeholder="Username"/>
+                <input type="text" th:field="*{userName}" placeholder="Username"/>
             </label>
         </div>
         <div>

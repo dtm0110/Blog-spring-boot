@@ -8,4 +8,6 @@ import java.util.List;
 public interface IPostRepository {
     public List<Post> getAllPost();
     public Post getById(Long id);
+
+    public void save(Post post);
 }

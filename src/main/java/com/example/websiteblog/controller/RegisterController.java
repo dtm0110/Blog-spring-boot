@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -32,31 +34,19 @@ public class RegisterController {
         return "signup";
     }
 
-    @GetMapping("/register")
-    public String registerUser(@Valid @ModelAttribute User user, BindingResult bindingResult, SessionStatus sessionStatus) throws RoleNotFoundException {
+    @PostMapping("/register")
+    public String registerUser(@Valid User user, BindingResult bindingResult, Errors error) {
         System.out.println("new user: " + user);
+        if (iUserService.findByUsername(user.getUserName())!=null) {
+            bindingResult.rejectValue("userName", "error.userName","Username is already registered try other one or go away");
+            System.err.println("Username already taken error message");
+        }
+        if (error.hasErrors()) {
+            System.err.println("New user did not validate");
+            return "signup";
+        }
+       // System.out.println("abcxyz");
         iUserService.save(user);
-//        if (iUserService.findByUsername(user.getUsername())!=null) {
-//            FieldError usernameTakenError = new FieldError("blogUser","username","Username is already registered try other one or go away");
-//            bindingResult.addError(usernameTakenError);
-//            bindingResult.rejectValue("username", "error.username","Username is already registered try other one or go away");
-//            System.err.println("Username already taken error message");
-//        }
-//
-////        // Validate users fields
-//        if (bindingResult.hasErrors()) {
-//            System.err.println("New user did not validate");
-//            return "registerForm";
-//        }
-////        // Persist new blog user
-////        this.blogUserService.saveNewBlogUser(user);
-////        // Create Authentication token and login after registering new blog user
-////        Authentication auth = new UsernamePasswordAuthenticationToken(blogUser, blogUser.getPassword(), blogUser.getAuthorities());
-////        System.err.println("AuthToken: " + auth);  // for testing debugging purposes
-////        SecurityContextHolder.getContext().setAuthentication(auth);
-////        System.err.println("SecurityContext Principal: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal());  // for testing debugging purposes
-////        sessionStatus.setComplete();
-
         return "redirect:/";
     }
 }
