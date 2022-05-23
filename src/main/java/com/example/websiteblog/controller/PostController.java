@@ -45,8 +45,10 @@ public class PostController {
 
     @GetMapping("/createNewPost")
     public String createNewPost(Model model, Principal principal) {
-//        Post postBlog = new Post();
-//        model.addAttribute("postBlog", postBlog);
+        Post postBlog = new Post();
+        postBlog.setId(0L);
+        model.addAttribute("postBlog", postBlog);
+        model.addAttribute("postIdEdit", null);
         return "formPost";
         // Just curious  what if we get username from Principal instead of SecurityContext
 //        String authUsername = "anonymousUser";
@@ -69,24 +71,30 @@ public class PostController {
 //        } else {
 //            return "error";
 //        }
-
     }
 
     @PostMapping("/createNewPost")
 //    @RequestMapping(value = "/createNewPost", method = RequestMethod.POST,
 //            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
 //            produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public  String createNewPostSave(@RequestParam String title, @RequestParam String img, @RequestParam String contentPost) {
+    public  String createNewPostSave(Model model, @RequestParam String title, @RequestParam String img, @RequestParam String contentPost, @RequestParam Long id) {
 //        System.err.println("POST post: " + postBlog); // for testing debugging purposes
 //        if (bindingResult.hasErrors()) {
 //            System.err.println("Post did not validate");
 //            return "formPost";
 //        }
         // Save post if all good
+
         Post postBlog = new Post();
         postBlog.setContentPost(contentPost);
         postBlog.setTitle(title);
         postBlog.setImg(img);
+        System.out.println("id pót " + id );
+        //Long id = (Long) model.getAttribute("postIdEdit");
+        //System.out.println("id " + model.getAttribute("postIdEdit"));
+        if(id > 0){
+            postBlog.setId(id);
+        }
         iPostService.save(postBlog);
         //sessionStatus.setComplete();
         //return "redirect:/post/" + postBlog.getId();
@@ -108,4 +116,19 @@ public class PostController {
 //        sessionStatus.setComplete();
 //        return "redirect:/post/" + postBlog.getId();
 //    }
+
+
+
+
+    @GetMapping("editPost/{id}")
+    public String editPost(@PathVariable Long id, Model model, Principal principal) {
+        // Just curious  what if we get username from Principal instead of SecurityContext
+        Post post = iPostService.getById(id);
+        System.out.println("post can cap nhat : " + id);
+        post.setId(id);
+        model.addAttribute("postBlog", post);
+        model.addAttribute("postIdEdit", id);
+        System.out.println("id " + model.getAttribute("postIdEdit"));
+        return "formPost";
+    }
 }

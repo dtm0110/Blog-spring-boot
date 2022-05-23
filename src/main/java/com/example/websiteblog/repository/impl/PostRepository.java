@@ -20,25 +20,43 @@ public class PostRepository implements IPostRepository {
     private final JdbcTemplate jdbcTemplate;
     @Override
     public List<Post> getAllPost() {
-        String sql = "select * from post";
-        List<Post> listPost = jdbcTemplate.query(
-                sql,
-                new BeanPropertyRowMapper(Post.class));
-        return listPost;
+        try {
+            String sql = "select * from post";
+            List<Post> listPost = jdbcTemplate.query(
+                    sql,
+                    new BeanPropertyRowMapper(Post.class));
+            return listPost;
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 
     @Override
     public Post getById(Long id) {
-        String sql = "select * from post where id = ?";
-        return (Post) jdbcTemplate.queryForObject(
-                sql,
-                new Object[]{id},
-                new BeanPropertyRowMapper(Post.class));
+        try {
+            String sql = "select * from post where id = ?";
+            return (Post) jdbcTemplate.queryForObject(
+                    sql,
+                    new Object[]{id},
+                    new BeanPropertyRowMapper(Post.class));
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 
     @Override
     public void save(Post post) {
-        String sql = "INSERT INTO `sys`.`post` (user_id, title, img, content_post) VALUES(?, ?, ?, ?)";
-        jdbcTemplate.update(sql, post.getUserId(), post.getTitle(), post.getImg(), post.getContentPost() );
+        System.out.println("cap nhat post " + post);
+        if(post.getId() == null) {
+            String sql = "INSERT INTO `sys`.`post` (user_id, title, img, content_post) VALUES(?, ?, ?, ?)";
+            jdbcTemplate.update(sql, post.getUserId(), post.getTitle(), post.getImg(), post.getContentPost());
+        }
+        else{
+            System.out.println("cap nhat");
+            String sql = "update post set user_id = ?, title= ?, img =?,  content_post = ? where id = ? ";
+            jdbcTemplate.update(sql, post.getUserId(), post.getTitle(), post.getImg(), post.getContentPost(), post.getId());
+        }
     }
 }

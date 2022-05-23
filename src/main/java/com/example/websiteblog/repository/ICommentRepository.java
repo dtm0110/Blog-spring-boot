@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ICommentRepository {
     public List<Comment> getListComment(Long id);
+    public void save(Comment comment);
 }

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ICommentService {
     public List<Comment> getListComment(Long id);
+    public void save(Comment comment);
 }

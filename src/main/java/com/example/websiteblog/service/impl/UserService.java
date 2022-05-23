@@ -22,4 +22,14 @@ public class UserService implements IUserService {
     public void save(User user) {
         iUserRepository.save(user);
     }
+
+    @Override
+    public User findUserActive() {
+        return iUserRepository.findUserActive();
+    }
+
+    @Override
+    public User login(String username, String password) {
+        return iUserRepository.login(username,password);
+    }
 }

@@ -12,4 +12,6 @@ public interface IUserRepository {
     public void save(User user);
 
     public User findUserActive();
+
+    public User login(String username, String password);
 }

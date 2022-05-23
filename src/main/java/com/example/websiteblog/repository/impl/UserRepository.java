@@ -40,11 +40,30 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public User findUserActive() {
-        String sql = "select * from user where is_active = ?";
-        return (User) jdbcTemplate.queryForObject(
-                sql,
-                new Object[]{1},
-                new BeanPropertyRowMapper(User.class));
+        try {
+            String sql = "select * from user where is_active = ?";
+            return (User) jdbcTemplate.queryForObject(
+                    sql,
+                    new Object[]{1},
+                    new BeanPropertyRowMapper(User.class));
+        }
+        catch (Exception e){
+            return null;
+        }
+    }
+
+    @Override
+    public User login(String username, String password) {
+        try {
+            String sql = "select * from user where user_name = ? and password = ?";
+            return (User) jdbcTemplate.queryForObject(
+                    sql,
+                    new Object[]{username, password},
+                    new BeanPropertyRowMapper(User.class));
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 
 

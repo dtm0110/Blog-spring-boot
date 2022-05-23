@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/components/head :: head"></head>
 <body>
+
+<div th:replace="/components/header :: header"></div>
+
+<div class="container">
+
+    <h2>Write new comment</h2>
+
+    <form action="#"
+          th:action="@{'/comment'}"
+          th:object="${commentPost}"
+          method="post">
+        <label>
+            <div class="alert-red" th:if="${#fields.hasErrors('contentCmt')}" th:errors="*{contentCmt}">Body Error</div>
+            <textarea th:field="*{contentCmt}" placeholder="Write something valuable"></textarea>
+        </label>
+        <input th:field="*{postId}" hidden value="${commentPost.postId}"></input>
+        <input th:field="*{userId}" hidden value="${commentPost.userId}"></input>
+        <div>
+            <button class="green-btn" type="submit">Send</button>
+        </div>
+    </form>
+</div>
+
+<footer th:replace="/components/footer :: footer"></footer>
 
 </body>
 </html>

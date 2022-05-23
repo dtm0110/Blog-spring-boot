@@ -9,6 +9,7 @@
 <div class="container">
     <form action="#"
           th:action="@{'/createNewPost'}"
+          th:object="${postBlog}"
           method="post">
         <h2>Write new blog post</h2>
 <!--        <div>-->
@@ -47,25 +48,29 @@
 <!--    </form>-->
 
 
-
     <div>
         <label>
-            <input type="text" name="title"  placeholder="Title"/>
+            <input th:field="*{title}" type="text" name="title"  placeholder="Title" required/>
         </label>
     </div>
     <div>
         <label>
-            <textarea name="contentPost" placeholder="Write valuable for content"></textarea>
+            <textarea th:field="*{contentPost}" name="contentPost" placeholder="Write valuable for content" required></textarea>
         </label>
     </div>
     <div>
         <label>
-            <input name ="img" placeholder="Write valuable for image"></input>
+            <input th:field="*{img}" name ="img" placeholder="Write valuable for image" required></input>
         </label>
     </div>
     <div class="float-left">
         <button class="green-btn" type="submit">Send</button>
     </div>
+        <div>
+            <label>
+                <input th:field="*{id}" type="text" name="id"  hidden/>
+            </label>
+        </div>
     </form>
 
 <!--    <div class="float-right" th:if="${post.id}">-->

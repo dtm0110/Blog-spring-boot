@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/components/head :: head"></head>
+<head th:replace="/components/head :: head">
+
+
+</head>
 <body>
 
 <div th:replace="/components/header :: header"></div>
@@ -10,31 +13,45 @@
 
     <h2>Register new user</h2>
 
-    <form action="#"
-          th:action="@{/register}"
+    <form action="/register"
           th:object="${user}"
-          method="post">
+          method="post"
+          onsubmit="handleSubmit()"
+    >
         <div>
             <label>
-                <div class="alert-red" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">Username Error
+                <div class="alert-red error-username" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">Username Error
                 </div>
-                <input type="text" th:field="*{userName}" placeholder="Username"/>
+
+                <input class="username" type="text" th:field="*{userName}" placeholder="Username" required/>
             </label>
         </div>
         <div>
             <label>
                 <div class="alert-red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error
                 </div>
-                <input type="password" th:field="*{password}" placeholder="Password"/>
+                <input class="password" type="password" th:field="*{password}" placeholder="Password" required/>
             </label>
         </div>
         <div>
-            <button class="green-btn" type="submit">Register</button>
+            <button class="green-btn" type="submit" onclick="handleSubmit()">Register</button>
         </div>
     </form>
 </div>
 
 <footer th:replace="/components/footer :: footer"></footer>
 
+<script>
+    function handleSubmit(e) {
+        e.preventDefault()
+        let textUserName = document.querySelector(".username").value
+        if(textUserName.length < 6){
+            document.querySelector(".error-username").innerText = "User name lon hon 3"
+            return false
+        }
+        console.log(textUserName)
+        return false
+    }
+</script>
 </body>
 </html>

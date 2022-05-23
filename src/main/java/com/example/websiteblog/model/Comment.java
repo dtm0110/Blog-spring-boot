@@ -19,17 +19,8 @@ public class Comment {
     @NotEmpty(message = "Comment body can not be empty! Write something sane for the love of Internet, would you?")
     private String contentCmt;
 
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @CreationTimestamp
-//    @Column(name = "creation_date", nullable = false, updatable = false)
-//    private Date creationDate;
-
-    @NotNull
     private int postId;
-
-    @NotNull
     private int userId;
-
     private Date createdTime;
     private Date updatedTime;
 }

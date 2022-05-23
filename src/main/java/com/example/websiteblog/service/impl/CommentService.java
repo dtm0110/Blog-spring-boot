@@ -17,4 +17,9 @@ public class CommentService implements ICommentService {
 
         return iCommentRepository.getListComment(id);
     }
+
+    @Override
+    public void save(Comment comment) {
+        iCommentRepository.save(comment);
+    }
 }

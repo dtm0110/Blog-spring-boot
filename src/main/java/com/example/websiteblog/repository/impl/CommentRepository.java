@@ -30,4 +30,10 @@ public class CommentRepository implements ICommentRepository {
                 return null;
             }
         }
+
+    @Override
+    public void save(Comment comment) {
+        String sql = "INSERT INTO `sys`.`comment` (user_id, post_id, content_cmt) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, comment.getUserId(), comment.getPostId(), comment.getContentCmt());
+    }
 }
