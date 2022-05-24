@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/components/head :: head"></head>
+
+<body>
+
+<div th:replace="/components/header :: header"></div>
+
+<form action="#"
+      th:action="@{'/filter'}"
+      method="post">
+  <h2>Filter blog post</h2>
+  <div>
+    <label>
+      <input type="text" name="queryString"  placeholder="Query String" required/>
+    </label>
+  </div>
+  <div>
+    <label>
+      <select name="sort" id="sort">
+        <option value="new">Mới nhất</option>
+        <option value="old">Cũ nhất</option>
+      </select>
+    </label>
+  </div>
+  <div>
+    <button class="green-btn" type="submit">Send</button>
+  </div>
+</form>
+
+<div class="container">
+  <div th:replace="/components/posts :: posts(posts=${posts})"></div>
+</div>
+
+<div class="container">
+  <div th:replace="/components/posts :: posts(posts=${posts})"></div>
+</div>
+
+<footer th:replace="/components/footer :: footer"></footer>
+
+</body>
+</html>

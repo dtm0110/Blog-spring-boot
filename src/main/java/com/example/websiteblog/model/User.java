@@ -26,6 +26,8 @@ public class User {
     @NotEmpty(message = "Please enter the password")
     private String password;
 
+    private String role;
+
     private  Boolean rememberMe =false;
 
     private int isActive;

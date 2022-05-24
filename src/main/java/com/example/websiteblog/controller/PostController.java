@@ -6,6 +6,7 @@ import com.example.websiteblog.model.User;
 import com.example.websiteblog.service.ICommentService;
 import com.example.websiteblog.service.IPostService;
 import com.example.websiteblog.service.IUserService;
+import com.example.websiteblog.utils.RoleConstant.RoleConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -39,7 +40,18 @@ public class PostController {
        // System.out.println(currentPost);
         model.addAttribute("currentPost", currentPost);
         model.addAttribute("listCommentCurrentPost", commentList);
+        User userComment = iUserService.findUserActive();
+        System.out.println("role " + RoleConstant.RoleUser.ROLE_ADMIN.name());
+        System.out.println("role hien tai " + userComment.getRole());
+        if(currentPost.getUserId() == userComment.getId() || userComment.getRole().equalsIgnoreCase(RoleConstant.RoleUser.ROLE_ADMIN.name()))
+        {
+            System.out.println("co quyen edit");
+            model.addAttribute("roleEdit" , true);
+            return "postDetail";
+
+        }
         //System.out.println(commentList.size());
+        model.addAttribute("roleEdit" , false);
         return "postDetail";
     }
 
@@ -130,5 +142,18 @@ public class PostController {
         model.addAttribute("postIdEdit", id);
         System.out.println("id " + model.getAttribute("postIdEdit"));
         return "formPost";
+    }
+
+
+    @GetMapping("/deletePost/{id}")
+    public String deletePost(@PathVariable Long id) {
+        iPostService.delete(id);
+        return "redirect:/";
+    }
+
+
+    @GetMapping("/filter")
+    public String filterPost() {
+        return "filterPost";
     }
 }

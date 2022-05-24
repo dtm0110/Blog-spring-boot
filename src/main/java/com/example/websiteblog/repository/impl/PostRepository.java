@@ -59,4 +59,13 @@ public class PostRepository implements IPostRepository {
             jdbcTemplate.update(sql, post.getUserId(), post.getTitle(), post.getImg(), post.getContentPost(), post.getId());
         }
     }
+
+    @Override
+    public void delete(Long id) {
+        String query = "delete from post where id = ?";
+        Object[] post = new Object[] {id};
+
+        // Delete
+        jdbcTemplate.update(query, post);
+    }
 }

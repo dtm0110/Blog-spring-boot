@@ -39,7 +39,7 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public void delete(Post post) {
-
+    public void delete(Long id) {
+        iPostRepository.delete(id);
     }
 }

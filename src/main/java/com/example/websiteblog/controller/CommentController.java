@@ -29,7 +29,9 @@ public class CommentController {
         Comment comment = new Comment();
         comment.setPostId(Math.toIntExact(id));
         User userComment = iUserService.findUserActive();
+        System.out.println("user active "  + userComment);
         comment.setUserId(Math.toIntExact(userComment.getId()));
+        comment.setUserName(userComment.getUserName());
         model.addAttribute("commentPost", comment);
         return "formComment";
     }

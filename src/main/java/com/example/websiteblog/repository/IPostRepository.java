@@ -10,4 +10,6 @@ public interface IPostRepository {
     public Post getById(Long id);
 
     public void save(Post post);
+
+    public void delete(Long id);
 }
