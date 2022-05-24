@@ -18,6 +18,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -153,7 +154,17 @@ public class PostController {
 
 
     @GetMapping("/filter")
-    public String filterPost() {
+    public String filterPost(Model model) {
+        List<Post> posts = new ArrayList<>();
+        //List<Post> posts = iPostService.getFilterPost("ai","ASC");
+        model.addAttribute("postsFilter", posts);
+        return "filterPost";
+    }
+
+    @PostMapping("/filter")
+    public String resFilterPost(@RequestParam String queryString, @RequestParam String sort, Model model){
+        List<Post> posts = iPostService.getFilterPost(queryString,sort);
+        model.addAttribute("postsFilter", posts);
         return "filterPost";
     }
 }

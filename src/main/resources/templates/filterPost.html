@@ -13,14 +13,14 @@
   <h2>Filter blog post</h2>
   <div>
     <label>
-      <input type="text" name="queryString"  placeholder="Query String" required/>
+      <input type="text" name="queryString"  placeholder="Query String"/>
     </label>
   </div>
   <div>
     <label>
       <select name="sort" id="sort">
-        <option value="new">Mới nhất</option>
-        <option value="old">Cũ nhất</option>
+        <option value="ASC">Mới nhất</option>
+        <option value="DESC">Cũ nhất</option>
       </select>
     </label>
   </div>
@@ -30,7 +30,7 @@
 </form>
 
 <div class="container">
-  <div th:replace="/components/posts :: posts(posts=${posts})"></div>
+  <div th:replace="/components/posts :: posts(posts=${postsFilter})"></div>
 </div>
 
 <div class="container">

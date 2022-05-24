@@ -7,11 +7,10 @@ import com.example.websiteblog.repository.IUserRepository;
 import com.example.websiteblog.service.IPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -29,6 +28,16 @@ public class PostService implements IPostService {
     public List<Post> getAllPost() {
         List<Post> allPost = iPostRepository.getAllPost();
         return allPost;
+    }
+
+    @Override
+    public List<Post> getFilterPost(String queryString, String sort) {
+        try{
+            return iPostRepository.getFilterPost(queryString, sort);
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 
     @Override
