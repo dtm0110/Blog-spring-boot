@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/components/head :: head"></head>
+<body>
+
+<div th:replace="/components/header :: header"></div>
+
+<div class="container">
+  <div class="post">
+    <h2 th:text="'Username :' + ${currentUserDetail.userName}">User name</h2>
+    <h5 th:text="'Id : ' + ${currentUserDetail.id}">id</h5>
+    <h5 th:text="'Role : ' +${currentUserDetail.role}">role</h5>
+
+<!--    <span>-->
+<!--      <a th:href="@{'/banUser/{id}'(id=${currentPost.id})}>Ban vĩnh viễn</a>-->
+<!--    </span>-->
+    <a th:href="@{'/banUser/{id}'(id=${currentUserDetail.id})}">
+      <button class="green-btn blue-btn" type="button">Ban vĩnh viễn</button>
+    </a>
+</div>
+
+<footer th:replace="/components/footer :: footer"></footer>
+
+</body>
+</html>

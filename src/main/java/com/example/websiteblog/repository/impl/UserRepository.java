@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class UserRepository implements IUserRepository {
@@ -33,6 +35,29 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
+    public void delete(Long id) {
+        String query = "delete from user where id = ?";
+        Object[] user = new Object[] {id};
+
+        // Delete
+        jdbcTemplate.update(query, user);
+    }
+
+    @Override
+    public User findUserById(Long id) {
+        try {
+            String sql = "select * from user where id = ?";
+            return (User) jdbcTemplate.queryForObject(
+                    sql,
+                    new Object[]{id},
+                    new BeanPropertyRowMapper(User.class));
+        }
+        catch (Exception e){
+            return null;
+        }
+    }
+
+    @Override
     public void save(User user) {
         String sql = "INSERT INTO `sys`.`user` (user_name, password) VALUES (?, ?)";
         jdbcTemplate.update(sql, user.getUserName(), user.getPassword());
@@ -46,6 +71,20 @@ public class UserRepository implements IUserRepository {
                     sql,
                     new Object[]{1},
                     new BeanPropertyRowMapper(User.class));
+        }
+        catch (Exception e){
+            return null;
+        }
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        try {
+            String sql = "select * from user";
+            List<User> listUser = jdbcTemplate.query(
+                    sql,
+                    new BeanPropertyRowMapper(User.class));
+            return listUser;
         }
         catch (Exception e){
             return null;
