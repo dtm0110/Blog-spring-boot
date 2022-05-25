@@ -30,6 +30,7 @@ public class User {
 
     private  Boolean rememberMe =false;
 
+    private int deactive;
     private int isActive;
 
 }

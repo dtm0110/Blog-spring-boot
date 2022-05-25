@@ -23,10 +23,6 @@ public class RoleConstant {
                 mappingValue.put(roleUser.getValue(), roleUser);
             }
         }
-        @JsonCreator
-        public static RoleUser fromValue(Integer value) {
-            return mappingValue.getOrDefault(value, OTHER);
-        }
     }
 
 

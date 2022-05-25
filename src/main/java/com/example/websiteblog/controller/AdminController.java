@@ -9,7 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -36,5 +39,26 @@ public class AdminController {
     public String banUser(Model model, @PathVariable Long id){
         iUserService.delete(id);
         return "redirect:/manage";
+    }
+
+    @GetMapping("/unbanUser/{id}")
+    public String unbanUser(Model model, @PathVariable Long id){
+        iUserService.unban(id);
+        return "redirect:/manage";
+    }
+
+//    @GetMapping("/searchUser")
+//    public String searchUser(Model model) {
+//        List<User> posts = new ArrayList<>();
+//        //List<Post> posts = iPostService.getFilterPost("ai","ASC");
+//        model.addAttribute("postsFilter", posts);
+//        return "filterPost";
+//    }
+
+    @PostMapping("/searchUser")
+    public String searchUserRes(@RequestParam String queryString, @RequestParam String sort, Model model){
+        List<User> users = iUserService.getSearchUser(queryString,sort);
+        model.addAttribute("users", users);
+        return "manage";
     }
 }

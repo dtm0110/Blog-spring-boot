@@ -11,13 +11,21 @@
     <h2 th:text="'Username :' + ${currentUserDetail.userName}">User name</h2>
     <h5 th:text="'Id : ' + ${currentUserDetail.id}">id</h5>
     <h5 th:text="'Role : ' +${currentUserDetail.role}">role</h5>
+    <div th:if="${currentUserDetail.deactive} > 0">
+      <h5 th:text="'Account is Deactived'">deactive</h5>
+      <a th:href="@{'/unbanUser/{id}'(id=${currentUserDetail.id})}">
+        <button class="green-btn blue-btn" type="button">Bỏ chặn người dùng</button>
+      </a>
+    </div>
 
 <!--    <span>-->
 <!--      <a th:href="@{'/banUser/{id}'(id=${currentPost.id})}>Ban vĩnh viễn</a>-->
 <!--    </span>-->
-    <a th:href="@{'/banUser/{id}'(id=${currentUserDetail.id})}">
-      <button class="green-btn blue-btn" type="button">Ban vĩnh viễn</button>
-    </a>
+    <div th:if="${currentUserDetail.deactive} == 0">
+      <a th:href="@{'/banUser/{id}'(id=${currentUserDetail.id})}">
+        <button class="green-btn blue-btn" type="button">Chặn người dùng</button>
+      </a>
+    </div>
 </div>
 
 <footer th:replace="/components/footer :: footer"></footer>

@@ -35,12 +35,31 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
+    public List<User> getSearchUser(String queryString, String sort) {
+        String sql = "select * from user where user_name LIKE" + "'%" +queryString+ "%'" +  "order by user_name " + sort;
+        try {
+            return jdbcTemplate.query(sql,new BeanPropertyRowMapper(User.class));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
     public void delete(Long id) {
         String query = "delete from user where id = ?";
         Object[] user = new Object[] {id};
-
+        String sql = "update user set deactive = ? where id = ? ";
+        jdbcTemplate.update(sql, 1 , id);
         // Delete
-        jdbcTemplate.update(query, user);
+        //jdbcTemplate.update(query, user);
+    }
+
+    @Override
+    public void unban(Long id) {
+        String query = "update from user where id = ?";
+        Object[] user = new Object[] {id};
+        String sql = "update user set deactive = ? where id = ? ";
+        jdbcTemplate.update(sql, 0 , id);
     }
 
     @Override
@@ -94,10 +113,10 @@ public class UserRepository implements IUserRepository {
     @Override
     public User login(String username, String password) {
         try {
-            String sql = "select * from user where user_name = ? and password = ?";
+            String sql = "select * from user where user_name = ? and password = ? and deactive = ?";
             return (User) jdbcTemplate.queryForObject(
                     sql,
-                    new Object[]{username, password},
+                    new Object[]{username, password, 0},
                     new BeanPropertyRowMapper(User.class));
         }
         catch (Exception e){

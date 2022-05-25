@@ -11,7 +11,10 @@ import java.util.Optional;
 public interface IUserRepository {
     public User findByUsername(String username);
 
+    public List<User> getSearchUser(String queryString, String sort);
     public void delete(Long id);
+
+    public void unban(Long id);
     public User findUserById(Long id);
     public void save(User user);
 

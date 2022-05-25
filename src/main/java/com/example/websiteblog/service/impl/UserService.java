@@ -41,6 +41,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public List<User> getSearchUser(String queryString, String sort) {
+        return iUserRepository.getSearchUser(queryString,sort);
+    }
+
+    @Override
     public User login(String username, String password) {
         return iUserRepository.login(username,password);
     }
@@ -48,5 +53,10 @@ public class UserService implements IUserService {
     @Override
     public void delete(Long id) {
         iUserRepository.delete(id);
+    }
+
+    @Override
+    public void unban(Long id) {
+        iUserRepository.unban(id);
     }
 }
