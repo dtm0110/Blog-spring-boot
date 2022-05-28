@@ -6,8 +6,10 @@ import com.example.websiteblog.model.User;
 import com.example.websiteblog.service.ICommentService;
 import com.example.websiteblog.service.IPostService;
 import com.example.websiteblog.service.IUserService;
+import com.example.websiteblog.utils.RoleConstant.RoleConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,14 +41,27 @@ public class PostController {
        // System.out.println(currentPost);
         model.addAttribute("currentPost", currentPost);
         model.addAttribute("listCommentCurrentPost", commentList);
+        User userComment = iUserService.findUserActive();
+        System.out.println("role " + RoleConstant.RoleUser.ROLE_ADMIN.name());
+        System.out.println("role hien tai " + userComment.getRole());
+        if(currentPost.getUserId() == userComment.getId() || userComment.getRole().equalsIgnoreCase(RoleConstant.RoleUser.ROLE_ADMIN.name()))
+        {
+            System.out.println("co quyen edit");
+            model.addAttribute("roleEdit" , true);
+            return "postDetail";
+
+        }
         //System.out.println(commentList.size());
+        model.addAttribute("roleEdit" , false);
         return "postDetail";
     }
 
     @GetMapping("/createNewPost")
     public String createNewPost(Model model, Principal principal) {
-        Post post = new Post();
-        model.addAttribute("postBlog", post);
+        Post postBlog = new Post();
+        postBlog.setId(0L);
+        model.addAttribute("postBlog", postBlog);
+        model.addAttribute("postIdEdit", null);
         return "formPost";
         // Just curious  what if we get username from Principal instead of SecurityContext
 //        String authUsername = "anonymousUser";
@@ -68,20 +84,87 @@ public class PostController {
 //        } else {
 //            return "error";
 //        }
-
     }
 
     @PostMapping("/createNewPost")
-    public String createNewPost(@Valid @ModelAttribute Post post, BindingResult bindingResult, SessionStatus sessionStatus) {
-        System.err.println("POST post: " + post); // for testing debugging purposes
-        if (bindingResult.hasErrors()) {
-            System.err.println("Post did not validate");
-            return "formPost";
-        }
+//    @RequestMapping(value = "/createNewPost", method = RequestMethod.POST,
+//            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+//            produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public  String createNewPostSave(Model model, @RequestParam String title, @RequestParam String img, @RequestParam String contentPost, @RequestParam Long id) {
+//        System.err.println("POST post: " + postBlog); // for testing debugging purposes
+//        if (bindingResult.hasErrors()) {
+//            System.err.println("Post did not validate");
+//            return "formPost";
+//        }
         // Save post if all good
-        iPostService.save(post);
-        System.err.println("SAVE post: " + post); // for testing debugging purposes
-        sessionStatus.setComplete();
-        return "redirect:/post/" + post.getId();
+
+        Post postBlog = new Post();
+        postBlog.setContentPost(contentPost);
+        postBlog.setTitle(title);
+        postBlog.setImg(img);
+        System.out.println("id pót " + id );
+        //Long id = (Long) model.getAttribute("postIdEdit");
+        //System.out.println("id " + model.getAttribute("postIdEdit"));
+        if(id > 0){
+            postBlog.setId(id);
+        }
+        iPostService.save(postBlog);
+        //sessionStatus.setComplete();
+        //return "redirect:/post/" + postBlog.getId();
+        return "redirect:/";
+    }
+
+
+//    @PostMapping("/createNewPost")
+//    public String createNewPost(@Valid @ModelAttribute Post postBlog, BindingResult bindingResult, SessionStatus sessionStatus) {
+//        System.err.println("POST post: " + postBlog); // for testing debugging purposes
+////        if (bindingResult.hasErrors()) {
+////            System.err.println("Post did not validate");
+////            return "postForm";
+////        }
+//        // Save post if all good
+//        //
+//        iPostService.save(postBlog);
+//        System.err.println("SAVE post: " + postBlog); // for testing debugging purposes
+//        sessionStatus.setComplete();
+//        return "redirect:/post/" + postBlog.getId();
+//    }
+
+
+
+
+    @GetMapping("editPost/{id}")
+    public String editPost(@PathVariable Long id, Model model, Principal principal) {
+        // Just curious  what if we get username from Principal instead of SecurityContext
+        Post post = iPostService.getById(id);
+        System.out.println("post can cap nhat : " + id);
+        post.setId(id);
+        model.addAttribute("postBlog", post);
+        model.addAttribute("postIdEdit", id);
+        System.out.println("id " + model.getAttribute("postIdEdit"));
+        return "formPost";
+    }
+
+
+    @GetMapping("/deletePost/{id}")
+    public String deletePost(@PathVariable Long id) {
+        iPostService.delete(id);
+        return "redirect:/";
+    }
+
+
+    @GetMapping("/filter")
+    public String filterPost(Model model) {
+        List<Post> posts = new ArrayList<>();
+        //List<Post> posts = iPostService.getFilterPost("ai","ASC");
+        model.addAttribute("postsFilter", posts);
+        return "filterPost";
+    }
+
+    @PostMapping("/filter")
+    public String resFilterPost(@RequestParam String queryString, @RequestParam String sort, Model model){
+        List<Post> posts = iPostService.getFilterPost(queryString,sort);
+        model.addAttribute("postsFilter", posts);
+        return "filterPost";
     }
 }

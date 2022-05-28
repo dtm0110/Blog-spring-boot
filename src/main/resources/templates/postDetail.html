@@ -18,16 +18,18 @@
 <!--            </a>-->
 <!--        </div>-->
 
-        <div class="align-right">
-            <a th:href="@{'/editPost/{id}'(id=${currentPost.id})}">
-                <button class="green-btn blue-btn" type="button">Edit</button>
-            </a>
+        <div th:if="${roleEdit}">
+            <div class="align-right">
+                <a th:href="@{'/editPost/{id}'(id=${currentPost.id})}">
+                    <button class="green-btn blue-btn" type="button">Edit</button>
+                </a>
+            </div>
         </div>
     </div>
     <div class="comments">
         <h2>Comments</h2>
         <div class="comment" th:each="comment : ${listCommentCurrentPost}">
-            <h5 th:text="'Commented on ' + ' by ' + ${comment.userId}">Comment date and by whom</h5>
+            <h5 th:text="'Commented on ' + ' by ' + ${comment.userName}">Comment date and by whom</h5>
             <p th:text="${comment.contentCmt}">Body</p>
         </div>
     </div>

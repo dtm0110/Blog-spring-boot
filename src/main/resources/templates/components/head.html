@@ -15,7 +15,10 @@
         <a class="left" th:href="@{/createNewPost}">New Post</a>
         </span>
         <span>
-        <a class="right" th:href="@{/logout}">Logout</a>
+            <a class="right" th:href="@{/filter}">Filter Post</a>
+        </span>
+        <span th:if="${logining}">
+            <a class="right" th:href="@{/logout}">Logout</a>
         </span>
         <span>
             <a class="right">Welcome <span >name?</span></a>

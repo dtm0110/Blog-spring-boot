@@ -1,6 +1,8 @@
 package com.example.websiteblog.model;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
@@ -11,6 +13,7 @@ import java.util.Collection;
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 @Entity
 public class Post {
 
@@ -31,7 +34,6 @@ public class Post {
     @NotEmpty(message = "Write something for the love of Internet...")
     private String contentPost;
 
-    @NotEmpty(message = "Please enter the time")
-    private String createdTime;
-
+    private Date createdTime;
+    private Date updatedTime;
 }

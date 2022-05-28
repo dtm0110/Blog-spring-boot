@@ -1,26 +1,44 @@
 package com.example.websiteblog.controller;
 
+import com.example.websiteblog.model.User;
+import com.example.websiteblog.service.IUserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 
 @Controller
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class LoginController {
+
+    private final IUserService iUserService;
     @GetMapping("/login")
     public String login(Principal principal) {
-        // Just curious  what if we get username from Principal instead of SecurityContext
-        if (principal != null) {
-            return "redirect:/"; // if user already logged in redirect back to root context
-        } else {
-            // the end of curiosity //
+        return "login";
+    }
 
-//        // get current user from Security Context
-//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//        if (!username.equals("anonymousUser")) {
-//            return "redirect:/"; // if user already logged in redirect back to root context
-//        } else {
+    @GetMapping("/logout")
+    public String logout(Model model) {
+        model.addAttribute("logining", false);
+        return "login";
+    }
+
+    @PostMapping("/signin")
+    public String signin(@RequestParam String username, @RequestParam String password, Model model){
+        User userLogin = iUserService.login(username, password);
+        System.out.println(userLogin);
+        if(userLogin == null){
+            System.out.println("abcxyz");
+            model.addAttribute("errorLogin", true);
+            model.addAttribute("logining", true);
             return "login";
         }
+        model.addAttribute("errorLogin", false);
+        return "redirect:/";
     }
 }
