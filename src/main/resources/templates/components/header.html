@@ -26,7 +26,10 @@
 <!--            <a class="right">Welcome <span sec:authentication="name">name?</span></a>-->
 <!--        </span>-->
         <span>
-            <a class="right">Welcome <span>name?</span></a>
+            <a class="right">Welcome <span th:text="abc"> </span></a>
+        </span>
+        <span>
+            <a class="right">Welcome <span th:text="${User.userName}"> </span></a>
         </span>
 <!--        <span sec:authorize="!isAuthenticated()">-->
 <!--        <a class="right" th:href="@{/login}">Log In</a>-->

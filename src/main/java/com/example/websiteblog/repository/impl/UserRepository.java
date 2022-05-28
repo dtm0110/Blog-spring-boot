@@ -78,7 +78,7 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public void save(User user) {
-        String sql = "INSERT INTO `sys`.`user` (user_name, password) VALUES (?, ?)";
+        String sql = "INSERT INTO `csdlblog`.`user` (user_name, password, is_active, remember_me, deactive) VALUES (?, ?, 1, 0, 0)";
         jdbcTemplate.update(sql, user.getUserName(), user.getPassword());
     }
 

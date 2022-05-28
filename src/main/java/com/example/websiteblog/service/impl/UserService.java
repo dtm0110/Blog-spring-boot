@@ -13,10 +13,10 @@ import java.util.List;
 
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class UserService implements IUserService {
+    @Autowired
     private final IUserRepository iUserRepository;
     @Override
     public User findByUsername(String username) {
-
         return iUserRepository.findByUsername(username);
     }
 
@@ -32,6 +32,7 @@ public class UserService implements IUserService {
 
     @Override
     public void save(User user) {
+
         iUserRepository.save(user);
     }
 

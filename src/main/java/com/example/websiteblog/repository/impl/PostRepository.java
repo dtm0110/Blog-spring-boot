@@ -37,30 +37,6 @@ public class PostRepository implements IPostRepository {
 
     @Override
     public List<Post> getFilterPost(String queryString, String sort) {
-   // queryString = "%" + queryString + "%";
-//        System.out.println(queryString);
-//        try {
-//            String sql = "select * from `sys`.`post` where %ai% LIKE ? order by created_time asc";
-//            List<Post> listPost = jdbcTemplate.query(
-//                    sql,
-//                    new BeanPropertyRowMapper(Post.class));
-//            return listPost;
-//        }
-//        catch (Exception e){
-//            return null;
-//        }
-
-
-//        String sql = "select * from post where title LIKE :queryString order by created_time :sort";
-//        Map<String, Object> argMap = new HashMap<>();
-//        argMap.put("queryString", queryString);
-//        argMap.put("sort", sort);
-//        try {
-//            return namedParameterJdbcTemplate.queryForList(sql, new MapSqlParameterSource(argMap));
-//        } catch (Exception e) {
-//            return null;
-//        }
-
 
         String sql = "select * from post where title LIKE" + "'%" +queryString+ "%'" +  "order by created_time " + sort;
 //        Map<String, Object> argMap = new HashMap<>();
@@ -91,7 +67,7 @@ public class PostRepository implements IPostRepository {
     public void save(Post post) {
         System.out.println("cap nhat post " + post);
         if(post.getId() == null) {
-            String sql = "INSERT INTO `sys`.`post` (user_id, title, img, content_post) VALUES(?, ?, ?, ?)";
+            String sql = "INSERT INTO `csdlblog`.`post` (user_id, title, img, content_post) VALUES(?, ?, ?, ?)";
             jdbcTemplate.update(sql, post.getUserId(), post.getTitle(), post.getImg(), post.getContentPost());
         }
         else{

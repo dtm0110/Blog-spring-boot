@@ -45,7 +45,6 @@ public class RegisterController {
             System.err.println("New user did not validate");
             return "signup";
         }
-       // System.out.println("abcxyz");
         iUserService.save(user);
         return "redirect:/";
     }

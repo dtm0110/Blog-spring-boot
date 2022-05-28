@@ -24,8 +24,13 @@
             <a class="right" th:href="@{/manage}">Manage User</a>
         </span>
         <span>
-            <a class="right">Welcome <span >name?</span></a>
+            <a class="right">Welcome <span th:text="${User.userName}"> </span></a>
         </span>
+
+<!--        <span>-->
+<!--                <h1 th:text="${User.userName}"> </h1>-->
+<!--        </span>-->
+
         <span>
         <a class="right" th:href="@{/login}">Log In</a>
         <a class="right" th:href="@{/signup}">Sign Up</a>

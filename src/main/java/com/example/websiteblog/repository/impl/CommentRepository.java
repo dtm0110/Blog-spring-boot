@@ -21,7 +21,7 @@ public class CommentRepository implements ICommentRepository {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     @Override
     public List<Comment> getListComment(Long id) {
-        String sql = "SELECT * FROM `sys`.`comment` WHERE `post_id` = :id";
+        String sql = "SELECT * FROM `csdlblog`.`comment` WHERE `post_id` = :id";
         Map<String, Object> argMap = new HashMap<>();
         argMap.put("id", id);
         try {
@@ -33,7 +33,7 @@ public class CommentRepository implements ICommentRepository {
 
     @Override
     public void save(Comment comment) {
-        String sql = "INSERT INTO `sys`.`comment` (user_id, user_name, post_id, content_cmt) VALUES (?,?, ?, ?)";
+        String sql = "INSERT INTO `csdlblog`.`comment` (user_id, user_name, post_id, content_cmt) VALUES (?,?, ?, ?)";
         jdbcTemplate.update(sql, comment.getUserId(),comment.getUserName(), comment.getPostId(), comment.getContentCmt());
 
     }
