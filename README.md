@@ -21,7 +21,7 @@
   - PostMapping /searchUser : Tìm kiếm người dùng tương ứng với form search
 - CommentController   
   - GetMapping /comment/{id} : Lấy ra các comment tương ứng với bài post có id tương ứng
-  - PostMapping /comment : đăng tải comment tương ứng lên và lưu vào database
+  - PostMapping /comment : đăng tải comment tương ứng lên và lưu vào database nếu chưa đăng nhập đẩy sang trang login để người dùng đăng nhập với có quyên comment
   
 - LoginController
   - PostMapping /signin : xác thực thông tin username, password của người dùng nếu chính xác lưu thông tin người đang đăng nhập vào session và trả về giao diện home
