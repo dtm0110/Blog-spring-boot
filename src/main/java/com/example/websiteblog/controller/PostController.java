@@ -135,7 +135,6 @@ public class PostController {
 
     @GetMapping("editPost/{id}")
     public String editPost(@PathVariable Long id, Model model, Principal principal) {
-        // Just curious  what if we get username from Principal instead of SecurityContext
         Post post = iPostService.getById(id);
         System.out.println("post can cap nhat : " + id);
         post.setId(id);
