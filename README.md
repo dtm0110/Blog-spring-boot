@@ -6,7 +6,7 @@
 - Tạo các file Model đại diện cho từng model trong ứng dụng
 
 -- Phần Controller --
-- HomeController
+- HomeController 
   - GetMapping / : trả về giao diện trang hôm hiển thị danh sách các bài viết của hệ thống
 - PostController: Chỉ người dùng tạo ra bài viết hoặc admin của hệ thống mới có quyền chỉnh sửa và xoá bài viết
   - GetMapping /post/{id} : Trả về giao hiện hiển thị ra thông tin chi tiết của bài viết với id tương ứng
@@ -22,7 +22,6 @@
 - CommentController
   - GetMapping /comment/{id} : Lấy ra các comment tương ứng với bài post có id tương ứng
   - PostMapping /comment : đăng tải comment tương ứng lên và lưu vào database nếu chưa đăng nhập đẩy sang trang login để người dùng đăng nhập với có quyên comment
-
 - LoginController
   - PostMapping /signin : xác thực thông tin username, password của người dùng nếu chính xác lưu thông tin người đang đăng nhập vào session và trả về giao diện home
   - GetMapping /logou : Thoát người dùng đang đăng nhập khỏi hệ thống và xoá thông tin người dùng khỏi session
