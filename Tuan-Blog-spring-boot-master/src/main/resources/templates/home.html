@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+</head>
+
+<link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
+      type="text/css">
+<link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
+        rel="stylesheet" type="text/css">
+<link rel="stylesheet" th:href="@{css/main.css}">
+<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+<body>
+<div th:replace="/components/header :: header(currentUser=${currentUser})"></div>
+
+<div class="container">
+    <div class="name-tag" th:if="${currentUser} != null">
+        <h1 th:text="${currentUser.userName}"></h1>
+    </div>
+    <div th:replace="/components/posts :: posts(posts=${posts})"></div>
+</div>
+
+<footer th:replace="/components/footer :: footer"></footer>
+
+</body>
+</html>

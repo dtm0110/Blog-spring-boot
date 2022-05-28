@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<link rel="stylesheet" th:href="@{../css/main.css}">
+<link rel="stylesheet" th:href="@{css/main.css}">
+<link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+<body>
+
+<!--<div th:if="${currentUser} != null">-->
+<!--    <span class="right" th:text="'Welcome '${currentUser.userName}"></span>-->
+<div th:replace="/components/header :: header(currentUser=${currentUser})"></div>
+<!--</div>-->
+<!--<div th:replace="/components/header :: header(currentUser=${currentUser})"></div>-->
+
+<div class="container">
+    <div class="post">
+        <h2 th:text="${currentPost.title}">Title</h2>
+        <h5 th:text="'Published on ' + ${currentPost.createdTime} + ' by ' + ${postOwner.userName}">Creation date and by
+            whom</h5>
+        <img class="img" th:src="${currentPost.img}">
+        <p th:text="${currentPost.contentPost}">content</p>
+        <!--        <div class="align-right" sec:authorize="isAuthenticated()" th:if="${isOwner}">-->
+        <!--            <a th:href="@{'/editPost/{id}'(id=${post.id})}">-->
+        <!--                <button class="green-btn blue-btn" type="button">Edit</button>-->
+        <!--            </a>-->
+        <!--        </div>-->
+
+        <div th:if="${roleEdit}">
+            <div class="align-right">
+                <a th:href="@{'/editPost/{id}'(id=${currentPost.id})}">
+                    <button class="green-btn blue-btn" type="button">Edit</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="comments">
+        <h2>Comments</h2>
+        <div class="comment" th:each="comment : ${listCommentCurrentPost}">
+            <h5 th:text="'Commented on ' + ' by ' + ${comment.userName}">Comment date and by whom</h5>
+            <p th:text="${comment.contentCmt}">Body</p>
+        </div>
+    </div>
+    <div class="align-center">
+
+        <a th:href="@{'/comment/{id}'(id=${currentPost.id})}">
+            <button class="green-btn" type="button">Comment Post</button>
+        </a>
+    </div>
+</div>
+
+<footer th:replace="/components/footer :: footer"></footer>
+
+</body>
+</html>

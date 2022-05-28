@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/components/header :: header(currentUser=${currentUser})">
+</head>
+<link rel="stylesheet" th:href="@{css/main.css}">
+<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+<body>
+<div class="container">
+    <div class="login-container">
+        <h2 style="margin-top: 15px; margin-bottom: 15px;" class="align-center">Let's Login!</h2>
+
+        <div th:if="${errorLogin}">
+            <p class="alert-red">Invalid username and/or password</p>
+        </div>
+        <div th:if="${param.logout}">
+            <p class="alert-green"> You have been successfully logged out</p>
+        </div>
+
+        <form th:action="@{/signin}" method="post">
+            <div class="align-center" style="margin-bottom: 15px; margin-top:15px">
+                <input type="text" name="username" id="username" placeholder="UserName" required="true"
+                       autofocus="true"/>
+            </div>
+            <div class="align-center">
+                <input style="margin-bottom: 15px;" type="password" name="password" id="password"
+                       placeholder="Password" required="true"/>
+            </div>
+            <!--            <div class="align-center">-->
+            <!--                <label for="remember-me">Remember Me</label>-->
+            <!--                <input type="checkbox" id="remember-me" name="remember-me">-->
+            <!--            </div>-->
+            <div class="align-center" style="margin-bottom: 300px">
+                <input type="submit" class="green-btn" value="Login"/>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<footer th:replace="/components/footer :: footer"></footer>
+
+</body>
+</html>

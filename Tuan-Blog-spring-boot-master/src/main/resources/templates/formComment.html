@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<link rel="stylesheet" th:href="@{../css/main.css}">
+<link rel="stylesheet" th:href="@{css/main.css}">
+<link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+<body>
+
+<div th:replace="/components/header :: header(currentUser=${currentUser})"></div>
+
+<div class="container">
+
+    <h2>Write new comment</h2>
+
+    <form action="#"
+          th:action="@{'/comment'}"
+          th:object="${commentPost}"
+          method="post">
+        <label>
+            <div class="alert-red" th:if="${#fields.hasErrors('contentCmt')}" th:errors="*{contentCmt}">Body Error</div>
+            <textarea th:field="*{contentCmt}" placeholder="Write something valuable"></textarea>
+        </label>
+        <input th:field="*{postId}" hidden value="${commentPost.postId}"></input>
+        <input th:field="*{userId}" hidden value="${commentPost.userId}"></input>
+        <input th:field="*{userName}" hidden value="${commentPost.userName}"></input>
+        <div>
+            <button class="green-btn" type="submit">Send</button>
+        </div>
+    </form>
+</div>
+
+<footer th:replace="/components/footer :: footer"></footer>
+
+</body>
+</html>

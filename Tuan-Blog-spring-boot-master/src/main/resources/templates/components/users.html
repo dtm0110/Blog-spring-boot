@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link rel="stylesheet" th:href="@{css/main.css}">
+<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+<body>
+
+<div th:fragment="users(users)">
+
+    <div class="posts_wrapper" style="display: flex; flex-direction: column">
+        <div class="post" th:each="user : ${users}">
+            <h2><a th:href="@{'/user/' + ${user.id}}" th:text="${user.userName}">userName</a></h2>
+            <br>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

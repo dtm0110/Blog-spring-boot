@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+<link rel="stylesheet" th:href="@{css/nav.css}">
+<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+<body>
+<header th:fragment="currentUser=${currentUser}">
+    <div class="navbar navbar-expand-lg navbar-light topnav">
+        <a class="active" th:href="@{/}">Home</a>
+        <span th:if="${currentUser} != null">
+            <a class="right" th:href="@{/filter}">Filter Post</a>
+        </span>
+        <span th:if="${currentUser} != null">
+            <a class="right" th:href="@{/logout}">Logout</a>
+        </span>
+        <span th:if="${currentUser} != null">
+            <a class="right" th:href="@{/manage}">Manage User</a>
+        </span>
+        <span th:if="${currentUser} != null">
+            <span class="right" th:text="'Welcome '${currentUser.userName}"></span>
+        </span>
+        <span>
+        <a class="right" th:href="@{/login}">Log In</a>
+        <a class="right" th:href="@{/signup}">Sign Up</a>
+        </span>
+    </div>
+    <!-- <div class="navbar navbar-expand-lg navbar-light" id="mainNav">
+        <a class="active" th:href="@{/}">Home</a>
+        <span>
+            <a class="left" th:href="@{/createNewPost}">New Post</a>
+        </span>
+        <span>
+            <a class="right" th:href="@{/filter}">Filter Post</a>
+        </span>
+        <span th:if="${logining}">
+            <a class="right" th:href="@{/logout}">Logout</a>
+        </span>
+        <span>
+            <a class="right">Welcome <span>name?</span></a>
+        </span>
+        <span>
+            <a class="right" th:href="@{/login}">Log In</a>
+            <a class="right" th:href="@{/signup}">Sign Up</a>
+        </span>
+    </div> -->
+    <div class="header">
+        <h2>Cool Blog Name</h2>
+    </div>
+</header>
+
+</body>
+</html>

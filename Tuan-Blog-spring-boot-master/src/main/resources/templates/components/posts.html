@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link rel="stylesheet" th:href="@{css/main.css}">
+<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+<body>
+
+    <div th:fragment="posts(posts)">
+        <div class="posts_wrapper">
+            <div class="post" th:each="post : ${posts}">
+                <div class="card">
+                    <div class="card-header">
+                        <img class="img" th:src="${post.img}"></img>
+                    </div>
+                    <div class="card-body">
+                        <h2><a th:href="@{'/post/' + ${post.id}}" th:text="${post.title}">Title</a></h2>
+                        <h5 th:text="'Published on ' + ${post.createdTime}">Creation date</h5>
+                        <p th:text="${post.contentPost}">body text</p>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

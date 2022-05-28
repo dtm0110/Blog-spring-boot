@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+</head>
+<link rel="stylesheet" th:href="@{css/main.css}">
+<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+
+<body>
+
+<div th:replace="/components/header :: header(currentUser=${currentUser})"></div>
+<div class="filter-container">
+    <div id="search-container" class="col-xs-6">
+        <form action="#" th:action="@{'/filter'}" method="post">
+            <h2 style="margin-top: 10px;text-align: center">Filter blog post</h2>
+            <div>
+                <label>
+                    <input type="text" name="queryString" placeholder="Query String"/>
+                </label>
+            </div>
+            <div>
+                <label>
+                    <select name="sort" id="sort">
+                        <option value="ASC">Mới nhất</option>
+                        <option value="DESC">Cũ nhất</option>
+                    </select>
+                </label>
+            </div>
+            <div>
+                <button class="green-btn" type="submit">Send</button>
+            </div>
+        </form>
+    </div>
+    <div id="post-container" class="col-xs-6">
+        <div class="container">
+            <div th:replace="/components/posts :: posts(posts=${postsFilter})"></div>
+        </div>
+
+        <div class="container">
+            <div th:replace="/components/posts :: posts(posts=${posts})"></div>
+        </div>
+    </div>
+</div>
+<footer th:replace="/components/footer :: footer"></footer>
+
+</body>
+</html>

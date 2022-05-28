@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+<link rel="stylesheet" th:href="@{css/main.css}">
+<link rel="stylesheet" th:href="@{css/nav.css}">
+<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+
+<body>
+    <header th:fragment="currentUser=${currentUser}">
+        <div class="topnav">
+            <a class="left" style="color: black" th:href="@{/}">Home</a>
+            <span th:if="${currentUser} != null">
+                <a class="left" style="color: black" th:href="@{/createNewPost}">New Post</a>
+            </span>
+            <span th:if="${currentUser} != null">
+                <a class="left" style="color: black" th:href="@{/filter}">Filter Post</a>
+            </span>
+            <span th:if="${currentUser} != null">
+                <a class="right " id="logout-btn" style="color: #dc3545" th:href="@{/logout}">Logout</a>
+            </span>
+            <span th:if="${currentUser} != null">
+                <span th:if="${currentUser.role} == 'ROLE_ADMIN'">
+                    <a class="left" style="color: black" th:href="@{/manage}">Manage User</a>
+                </span>
+            </span>
+            <span th:if="${currentUser} != null">
+                <a><span class="left" style="color: black" th:text="'Welcome ' + ${currentUser.userName}"></span></a>
+            </span>
+            <span>
+                <span th:if="${currentUser} == null">
+                    <a class="right " id="login-btn" style="color: #007bff" th:href="@{/login}">Log In</a>
+                </span>
+                <span th:if="${currentUser} == null">
+                    <a class="right" style="color: black" th:href="@{/signup}">Sign Up</a>
+                </span>
+            </span>
+        </div>
+        <div class="header">
+            <h2>Cool Blog Name</h2>
+        </div>
+    </header>
+</body>
+
+</html>
