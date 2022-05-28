@@ -25,9 +25,7 @@ public class LoginController {
 
     @GetMapping("/logout")
     public String logout(Model model, HttpServletRequest request) {
-        //model.addAttribute("logining", false);
         model.addAttribute("logining", false);
-        //session
         request.getSession().invalidate();
         return "login";
     }

@@ -172,7 +172,6 @@ public class PostController {
     public String filterPost(Model model, HttpServletRequest request) {
         List<Post> posts = new ArrayList<>();
         User currentUser= (User) request.getSession().getAttribute("currentUser");
-        //List<Post> posts = iPostService.getFilterPost("ai","ASC");
         model.addAttribute("postsFilter", posts);
         model.addAttribute("currentUser", currentUser);
         return "filterPost";

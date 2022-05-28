@@ -11,13 +11,8 @@
     <div class="post">
         <h2 th:text="${currentPost.title}">Title</h2>
         <h5 th:text="'Published on ' + ${currentPost.createdTime} + ' by ' + ${postOwner.userName}">Creation date and by whom</h5>
-        <div class="img">Image</div>
+        <img class="img" th:src="${currentPost.img}"/>
         <p th:text="${currentPost.contentPost}">content</p>
-<!--        <div class="align-right" sec:authorize="isAuthenticated()" th:if="${isOwner}">-->
-<!--            <a th:href="@{'/editPost/{id}'(id=${post.id})}">-->
-<!--                <button class="green-btn blue-btn" type="button">Edit</button>-->
-<!--            </a>-->
-<!--        </div>-->
 
         <div th:if="${roleEdit}">
             <div class="align-right">

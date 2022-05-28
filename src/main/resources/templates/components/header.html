@@ -65,18 +65,19 @@
             </span>
         </span>
         <span th:if="${currentUser} != null">
+            <a class="right" th:href="@{/logout}">Logout</a>
+        </span>
+        <span th:if="${currentUser} != null">
             <a class="right" th:text="'Welcome ' + ${currentUser.userName}"></a>
         </span>
         <span>
-         <span th:if="${currentUser} != null">
-            <a class="right" th:href="@{/logout}">Logout</a>
+            <span th:if="${currentUser} == null">
+            <a class="right" th:href="@{/signup}">Sign Up</a>
         </span>
          <span th:if="${currentUser} == null">
             <a class="right" th:href="@{/login}">Log In</a>
         </span>
-        <span th:if="${currentUser} == null">
-            <a class="right" th:href="@{/signup}">Sign Up</a>
-        </span>
+
 
 
 

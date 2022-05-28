@@ -30,9 +30,6 @@ public class CommentController {
         Comment comment = new Comment();
         comment.setPostId(Math.toIntExact(id));
         User userComment = (User) request.getSession().getAttribute("currentUser");
-//        if(userSession != null)
-//            model.addAttribute("currentUser", userSession);
-        //User userComment = iUserService.findUserActive();
         if(userComment == null){
             return "redirect:/login";
         }
