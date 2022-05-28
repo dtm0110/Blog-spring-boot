@@ -34,7 +34,7 @@ public class CommentController {
 //            model.addAttribute("currentUser", userSession);
         //User userComment = iUserService.findUserActive();
         if(userComment == null){
-            return "redirect:/login/";
+            return "redirect:/login";
         }
         System.out.println("user active "  + userComment);
         comment.setUserId(Math.toIntExact(userComment.getId()));

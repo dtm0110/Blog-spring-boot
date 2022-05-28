@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public class User {
 
     private static final int MIN_USERNAME_LENGTH = 3;
-    private static final int MIN_PASSWORD_LENGTH = 8;
+    private static final int MIN_PASSWORD_LENGTH = 3;
 
     @Id
     private Long id;

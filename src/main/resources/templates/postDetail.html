@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
-<head ></head>
-<body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
-<!--<div th:if="${currentUser} != null">-->
-<!--    <span class="right" th:text="'Welcome '${currentUser.userName}"></span>-->
-    <div th:replace="/components/header :: header(currentUser=${currentUser})"></div>
-<!--</div>-->
-<!--<div th:replace="/components/header :: header(currentUser=${currentUser})"></div>-->
+<head>
+    <link rel="stylesheet" th:href="@{css/main.css}">
+</head>
+
+<body>
+<div th:replace="/components/header :: header(currentUser=${currentUser})"></div>
 
 <div class="container">
     <div class="post">

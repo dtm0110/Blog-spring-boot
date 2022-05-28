@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{css/main.css}">
 </head>
 <body>
 <!--<header th:fragment="header">-->
@@ -55,20 +56,21 @@
             <a class="left" th:href="@{/createNewPost}">New Post</a>
         </span>
         <span th:if="${currentUser} != null">
-            <a class="right" th:href="@{/filter}">Filter Post</a>
+            <a class="left" th:href="@{/filter}">Filter Post</a>
         </span>
-        <span th:if="${currentUser} != null">
-            <a class="right" th:href="@{/logout}">Logout</a>
-        </span>
+
         <span th:if="${currentUser} != null">
             <span th:if="${currentUser.role} == 'ROLE_ADMIN'">
-                <a class="right" th:href="@{/manage}">Manage User</a>
+                <a class="left" th:href="@{/manage}">Manage User</a>
             </span>
         </span>
         <span th:if="${currentUser} != null">
-            <span class="right" th:text="'Welcome ' + ${currentUser.userName}"></span>
+            <a class="right" th:text="'Welcome ' + ${currentUser.userName}"></a>
         </span>
         <span>
+         <span th:if="${currentUser} != null">
+            <a class="right" th:href="@{/logout}">Logout</a>
+        </span>
          <span th:if="${currentUser} == null">
             <a class="right" th:href="@{/login}">Log In</a>
         </span>
