@@ -16,7 +16,6 @@ public class UserService implements IUserService {
     private final IUserRepository iUserRepository;
     @Override
     public User findByUsername(String username) {
-
         return iUserRepository.findByUsername(username);
     }
 
