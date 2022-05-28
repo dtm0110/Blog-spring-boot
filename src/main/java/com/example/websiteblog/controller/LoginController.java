@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @Controller
@@ -23,21 +24,25 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    public String logout(Model model) {
+    public String logout(Model model, HttpServletRequest request) {
+        //model.addAttribute("logining", false);
         model.addAttribute("logining", false);
+        //session
+        request.getSession().invalidate();
         return "login";
     }
 
     @PostMapping("/signin")
-    public String signin(@RequestParam String username, @RequestParam String password, Model model){
+    public String signin(@RequestParam String username, @RequestParam String password, Model model, HttpServletRequest request){
         User userLogin = iUserService.login(username, password);
         System.out.println(userLogin);
         if(userLogin == null){
             System.out.println("abcxyz");
             model.addAttribute("errorLogin", true);
-            model.addAttribute("logining", true);
+            model.addAttribute("logininglogining", true);
             return "login";
         }
+        request.getSession().setAttribute("currentUser", userLogin);
         model.addAttribute("errorLogin", false);
         return "redirect:/";
     }

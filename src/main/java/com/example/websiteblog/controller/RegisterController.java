@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.management.relation.RoleNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -35,7 +36,7 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@Valid User user, BindingResult bindingResult, Errors error) {
+    public String registerUser(@Valid User user, BindingResult bindingResult, Errors error, HttpServletRequest request) {
         System.out.println("new user: " + user);
         if (iUserService.findByUsername(user.getUserName())!=null) {
             bindingResult.rejectValue("userName", "error.userName","Username is already registered try other one or go away");
@@ -47,6 +48,8 @@ public class RegisterController {
         }
        // System.out.println("abcxyz");
         iUserService.save(user);
+        User currentUser = iUserService.findByUsername(user.getUserName());
+        request.getSession().setAttribute("currentUser", currentUser);
         return "redirect:/";
     }
 }

@@ -11,7 +11,7 @@ public interface IUserService {
     public List<User> getAllUser();
     public void save(User user);
 
-    public User findUserActive();
+//    public User findUserActive();
 
     public List<User> getSearchUser(String queryString, String sort);
     public User login(String username, String password);

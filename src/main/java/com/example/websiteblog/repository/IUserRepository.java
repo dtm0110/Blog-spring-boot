@@ -18,7 +18,7 @@ public interface IUserRepository {
     public User findUserById(Long id);
     public void save(User user);
 
-    public User findUserActive();
+//    public User findUserActive();
 
     public List<User> getAllUser();
 

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/components/head :: head"></head>
+<head th:replace="/components/header :: header(currentUser=${currentUser})"></head>
 <body>
 
-<div th:replace="/components/header :: header"></div>
+<!--<div th:replace="/components/header :: header"></div>-->
 
 <div class="container">
     <form action="#"

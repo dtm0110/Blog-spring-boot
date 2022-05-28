@@ -5,42 +5,98 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<header th:fragment="header">
-    <div class="topnav">
-        <a class="active" th:href="@{/}">Home</a>
-<!--        <span sec:authorize="hasRole('ROLE_USER')">-->
-        <span>
-        <a class="left" th:href="@{/createNewPost}">New Post</a>
-        </span>
-        <span>
-        <a class="left" th:href="@{/filter}">Filter Post</a>
-        </span>
-<!--        <span sec:authorize="isAuthenticated()">-->
-        <span>
-        <a class="right" th:href="@{/logout}">Logout</a>
-        </span>
-        <span>
-            <a class="right" th:href="@{/manage}">Manage User</a>
-        </span>
-<!--        <span sec:authorize="isAuthenticated()">-->
-<!--            <a class="right">Welcome <span sec:authentication="name">name?</span></a>-->
+<!--<header th:fragment="header">-->
+<!--    <div class="topnav">-->
+<!--        <a class="active" th:href="@{/}">Home</a>-->
+<!--&lt;!&ndash;        <span sec:authorize="hasRole('ROLE_USER')">&ndash;&gt;-->
+<!--        <div class="alert-red" th:if="${currentUser} != null" >-->
+<!--            <span>-->
+<!--        <a class="left" th:href="@{/createNewPost}">New Post</a>-->
 <!--        </span>-->
-        <span>
-            <a class="right">Welcome <span>name?</span></a>
-        </span>
-<!--        <span sec:authorize="!isAuthenticated()">-->
+<!--        </div>-->
+
+<!--        <span>-->
+<!--        <a class="left" th:href="@{/filter}">Filter Post</a>-->
+<!--        </span>-->
+<!--&lt;!&ndash;        <span sec:authorize="isAuthenticated()">&ndash;&gt;-->
+<!--        <span>-->
+<!--        <a class="right" th:href="@{/logout}">Logout</a>-->
+<!--        </span>-->
+<!--        <span>-->
+<!--            <a class="right" th:href="@{/manage}">Manage User</a>-->
+<!--        </span>-->
+<!--&lt;!&ndash;        <span sec:authorize="isAuthenticated()">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a class="right">Welcome <span sec:authentication="name">name?</span></a>&ndash;&gt;-->
+<!--&lt;!&ndash;        </span>&ndash;&gt;-->
+<!--        <span>-->
+<!--            <a class="right">Welcome <span>name?</span></a>-->
+<!--        </span>-->
+<!--&lt;!&ndash;        <span sec:authorize="!isAuthenticated()">&ndash;&gt;-->
+<!--&lt;!&ndash;        <a class="right" th:href="@{/login}">Log In</a>&ndash;&gt;-->
+<!--&lt;!&ndash;        <a class="right" th:href="@{/signup}">Sign Up</a>&ndash;&gt;-->
+<!--&lt;!&ndash;        </span>&ndash;&gt;-->
+<!--        <span>-->
 <!--        <a class="right" th:href="@{/login}">Log In</a>-->
 <!--        <a class="right" th:href="@{/signup}">Sign Up</a>-->
 <!--        </span>-->
+<!--    </div>-->
+<!--    <div class="header">-->
+<!--        <h2>Cool Blog Name</h2>-->
+<!--    </div>-->
+<!--</header>-->
+
+
+
+
+<header th:fragment="currentUser=${currentUser}">
+    <div class="topnav">
+        <a class="active" th:href="@{/}">Home</a>
+        <span th:if="${currentUser} != null">
+            <a class="left" th:href="@{/createNewPost}">New Post</a>
+        </span>
+        <span th:if="${currentUser} != null">
+            <a class="right" th:href="@{/filter}">Filter Post</a>
+        </span>
+        <span th:if="${currentUser} != null">
+            <a class="right" th:href="@{/logout}">Logout</a>
+        </span>
+        <span th:if="${currentUser} != null">
+            <span th:if="${currentUser.role} == 'ROLE_ADMIN'">
+                <a class="right" th:href="@{/manage}">Manage User</a>
+            </span>
+        </span>
+        <span th:if="${currentUser} != null">
+            <span class="right" th:text="'Welcome ' + ${currentUser.userName}"></span>
+        </span>
         <span>
-        <a class="right" th:href="@{/login}">Log In</a>
-        <a class="right" th:href="@{/signup}">Sign Up</a>
+         <span th:if="${currentUser} == null">
+            <a class="right" th:href="@{/login}">Log In</a>
+        </span>
+        <span th:if="${currentUser} == null">
+            <a class="right" th:href="@{/signup}">Sign Up</a>
+        </span>
+
+
+
+
+            <!--            <a class="active" th:href="@{/}">Home</a>-->
+            <!--        <span sec:authorize="hasRole('ROLE_USER')">-->
+            <!--        <a class="left" th:href="@{/createNewPost}">New Post</a>-->
+            <!--        </span>-->
+            <!--        <span sec:authorize="isAuthenticated()">-->
+            <!--        <a class="right" th:href="@{/logout}">Logout</a>-->
+            <!--        </span>-->
+            <!--        <span sec:authorize="isAuthenticated()">-->
+            <!--            <a class="right">Welcome <span sec:authentication="name">name?</span></a>-->
+            <!--        </span>-->
+            <!--        <span sec:authorize="!isAuthenticated()">-->
+            <!--        <a class="right" th:href="@{/login}">Log In</a>-->
+            <!--        <a class="right" th:href="@{/signup}">Sign Up</a>-->
         </span>
     </div>
     <div class="header">
         <h2>Cool Blog Name</h2>
     </div>
 </header>
-
 </body>
 </html>

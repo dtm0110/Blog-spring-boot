@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,15 +23,19 @@ public class AdminController {
     public IUserService iUserService;
 
     @GetMapping("/manage")
-    public String manageUser(Model model){
+    public String manageUser(Model model, HttpServletRequest request){
         List<User> users = iUserService.getAllUser();
+        User userSession = (User) request.getSession().getAttribute("currentUser");
         model.addAttribute("users", users);
+        model.addAttribute("currentUser", userSession);
         return "manage";
     }
 
     @GetMapping("/user/{id}")
-    public String userDetail(Model model, @PathVariable Long id){
+    public String userDetail(Model model, @PathVariable Long id, HttpServletRequest request){
         User user = iUserService.findUserById(id);
+        User userSession = (User) request.getSession().getAttribute("currentUser");
+        model.addAttribute("currentUser", userSession);
         model.addAttribute("currentUserDetail", user);
         return "userDetail";
     }
@@ -56,8 +61,11 @@ public class AdminController {
 //    }
 
     @PostMapping("/searchUser")
-    public String searchUserRes(@RequestParam String queryString, @RequestParam String sort, Model model){
+    public String searchUserRes(@RequestParam String queryString, @RequestParam String sort, Model model, HttpServletRequest request){
         List<User> users = iUserService.getSearchUser(queryString,sort);
+        //System.out.println(queryString == null);
+        User userSession = (User) request.getSession().getAttribute("currentUser");
+        model.addAttribute("currentUser", userSession);
         model.addAttribute("users", users);
         return "manage";
     }

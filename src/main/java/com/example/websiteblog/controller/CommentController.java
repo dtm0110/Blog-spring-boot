@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.support.SessionStatus;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -24,20 +25,27 @@ public class CommentController {
     private final IUserService iUserService;
     private final ICommentService iCommentService;
     @GetMapping("/comment/{id}")
-    public String postComment(@PathVariable Long id, Model model){
+    public String postComment(@PathVariable Long id, Model model, HttpServletRequest request){
         System.out.println(id);
         Comment comment = new Comment();
         comment.setPostId(Math.toIntExact(id));
-        User userComment = iUserService.findUserActive();
+        User userComment = (User) request.getSession().getAttribute("currentUser");
+//        if(userSession != null)
+//            model.addAttribute("currentUser", userSession);
+        //User userComment = iUserService.findUserActive();
+        if(userComment == null){
+            return "redirect:/login/";
+        }
         System.out.println("user active "  + userComment);
         comment.setUserId(Math.toIntExact(userComment.getId()));
         comment.setUserName(userComment.getUserName());
         model.addAttribute("commentPost", comment);
+        model.addAttribute("currentUser", userComment);
         return "formComment";
     }
 
     @PostMapping("/comment")
-    public String validateComment(@Valid @ModelAttribute Comment commentPost, BindingResult bindingResult) {
+    public String validateComment(@Valid @ModelAttribute Comment commentPost, BindingResult bindingResult, HttpServletRequest request) {
         System.err.println("POST comment: " + commentPost); // for testing debugging purposes
         if (bindingResult.hasErrors()) {
             System.err.println("Comment did not validate");

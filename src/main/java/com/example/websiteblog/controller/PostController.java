@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -31,37 +32,50 @@ public class PostController {
     private final ICommentService iCommentService;
 
     @GetMapping("/post/{id}")
-    public String getPost(@PathVariable Long id, Model model, Principal principal){
+    public String getPost(@PathVariable Long id, Model model, HttpServletRequest request){
 //        String authUsername = "anonymousUser";
 //        if (principal != null) {
 //            authUsername = principal.getName();
 //        }
         Post currentPost = iPostService.getById(id);
+        User postOwner = iUserService.findUserById((long) currentPost.getUserId());
         List<Comment> commentList = iCommentService.getListComment(id);
        // System.out.println(currentPost);
         model.addAttribute("currentPost", currentPost);
         model.addAttribute("listCommentCurrentPost", commentList);
-        User userComment = iUserService.findUserActive();
+        //User userComment = iUserService.findUserActive();
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+//        if(userComment != null)
+//            model.addAttribute("currentUser", userComment);
         System.out.println("role " + RoleConstant.RoleUser.ROLE_ADMIN.name());
-        System.out.println("role hien tai " + userComment.getRole());
-        if(currentPost.getUserId() == userComment.getId() || userComment.getRole().equalsIgnoreCase(RoleConstant.RoleUser.ROLE_ADMIN.name()))
+       // System.out.println("role hien tai " + userComment.getRole());
+        System.out.println(currentUser);
+        if(currentUser != null)
         {
-            System.out.println("co quyen edit");
-            model.addAttribute("roleEdit" , true);
-            return "postDetail";
+            if (currentPost.getUserId() == currentUser.getId() || currentUser.getRole().equalsIgnoreCase(RoleConstant.RoleUser.ROLE_ADMIN.name())) {
+                System.out.println("co quyen edit");
+                model.addAttribute("roleEdit", true);
+                model.addAttribute("currentUser", currentUser);
+                model.addAttribute("postOwner", postOwner);
+                return "postDetail";
 
+            }
         }
         //System.out.println(commentList.size());
+        model.addAttribute("currentUser", currentUser);
         model.addAttribute("roleEdit" , false);
+        model.addAttribute("postOwner", postOwner);
         return "postDetail";
     }
 
     @GetMapping("/createNewPost")
-    public String createNewPost(Model model, Principal principal) {
+    public String createNewPost(Model model, HttpServletRequest request) {
+        User userComment = (User) request.getSession().getAttribute("currentUser");
         Post postBlog = new Post();
         postBlog.setId(0L);
         model.addAttribute("postBlog", postBlog);
         model.addAttribute("postIdEdit", null);
+        model.addAttribute("currentUser", userComment);
         return "formPost";
         // Just curious  what if we get username from Principal instead of SecurityContext
 //        String authUsername = "anonymousUser";
@@ -90,7 +104,7 @@ public class PostController {
 //    @RequestMapping(value = "/createNewPost", method = RequestMethod.POST,
 //            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
 //            produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public  String createNewPostSave(Model model, @RequestParam String title, @RequestParam String img, @RequestParam String contentPost, @RequestParam Long id) {
+    public  String createNewPostSave(Model model, @RequestParam String title, @RequestParam String img, @RequestParam String contentPost, @RequestParam Long id, HttpServletRequest request) {
 //        System.err.println("POST post: " + postBlog); // for testing debugging purposes
 //        if (bindingResult.hasErrors()) {
 //            System.err.println("Post did not validate");
@@ -108,7 +122,7 @@ public class PostController {
         if(id > 0){
             postBlog.setId(id);
         }
-        iPostService.save(postBlog);
+        iPostService.save(postBlog,request);
         //sessionStatus.setComplete();
         //return "redirect:/post/" + postBlog.getId();
         return "redirect:/";
@@ -134,12 +148,14 @@ public class PostController {
 
 
     @GetMapping("editPost/{id}")
-    public String editPost(@PathVariable Long id, Model model, Principal principal) {
+    public String editPost(@PathVariable Long id, Model model, HttpServletRequest request) {
         Post post = iPostService.getById(id);
+        User userComment = (User) request.getSession().getAttribute("currentUser");
         System.out.println("post can cap nhat : " + id);
         post.setId(id);
         model.addAttribute("postBlog", post);
         model.addAttribute("postIdEdit", id);
+        model.addAttribute("currentUser", userComment);
         System.out.println("id " + model.getAttribute("postIdEdit"));
         return "formPost";
     }
@@ -153,17 +169,21 @@ public class PostController {
 
 
     @GetMapping("/filter")
-    public String filterPost(Model model) {
+    public String filterPost(Model model, HttpServletRequest request) {
         List<Post> posts = new ArrayList<>();
+        User currentUser= (User) request.getSession().getAttribute("currentUser");
         //List<Post> posts = iPostService.getFilterPost("ai","ASC");
         model.addAttribute("postsFilter", posts);
+        model.addAttribute("currentUser", currentUser);
         return "filterPost";
     }
 
     @PostMapping("/filter")
-    public String resFilterPost(@RequestParam String queryString, @RequestParam String sort, Model model){
+    public String resFilterPost(@RequestParam String queryString, @RequestParam String sort, Model model, HttpServletRequest request){
         List<Post> posts = iPostService.getFilterPost(queryString,sort);
+        User currentUser= (User) request.getSession().getAttribute("currentUser");
         model.addAttribute("postsFilter", posts);
+        model.addAttribute("currentUser", currentUser);
         return "filterPost";
     }
 }

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -41,8 +42,11 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public void save(Post post) {
-         User userActive = iUserRepository.findUserActive();
+    public void save(Post post, HttpServletRequest request) {
+        // User userActive = iUserRepository.findUserActive();
+        User userActive = (User) request.getSession().getAttribute("currentUser");
+//        if(userSession != null)
+//            model.addAttribute("currentUser", userSession);
          post.setUserId(Math.toIntExact(userActive.getId()));
         iPostRepository.save(post);
     }

@@ -36,7 +36,7 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public List<User> getSearchUser(String queryString, String sort) {
-        String sql = "select * from user where user_name LIKE" + "'%" +queryString+ "%'" +  "order by user_name " + sort;
+        String sql = "select * from `sys`.`user` where `user_name` LIKE" + " '%" +queryString+ "%'" +  " order by `user_name` " + sort;
         try {
             return jdbcTemplate.query(sql,new BeanPropertyRowMapper(User.class));
         } catch (Exception e) {
@@ -82,19 +82,19 @@ public class UserRepository implements IUserRepository {
         jdbcTemplate.update(sql, user.getUserName(), user.getPassword());
     }
 
-    @Override
-    public User findUserActive() {
-        try {
-            String sql = "select * from user where is_active = ?";
-            return (User) jdbcTemplate.queryForObject(
-                    sql,
-                    new Object[]{1},
-                    new BeanPropertyRowMapper(User.class));
-        }
-        catch (Exception e){
-            return null;
-        }
-    }
+//    @Override
+//    public User findUserActive() {
+//        try {
+//            String sql = "select * from user where is_active = ?";
+//            return (User) jdbcTemplate.queryForObject(
+//                    sql,
+//                    new Object[]{1},
+//                    new BeanPropertyRowMapper(User.class));
+//        }
+//        catch (Exception e){
+//            return null;
+//        }
+//    }
 
     @Override
     public List<User> getAllUser() {

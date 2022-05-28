@@ -35,10 +35,10 @@ public class UserService implements IUserService {
         iUserRepository.save(user);
     }
 
-    @Override
-    public User findUserActive() {
-        return iUserRepository.findUserActive();
-    }
+//    @Override
+//    public User findUserActive() {
+//        return iUserRepository.findUserActive();
+//    }
 
     @Override
     public List<User> getSearchUser(String queryString, String sort) {
